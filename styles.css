@@ -27,7 +27,7 @@
   /* ── HERO ── */
   .hero-wrap {
     padding: 1.5rem 1.5rem 0;
-    margin-top: 60px;
+    margin-top: 70px;
   }
   @media (max-width: 767px) {
     .hero-wrap { padding: 1rem 1rem 0; }
@@ -49,11 +49,18 @@
   .hero-bg-photo {
     position: absolute; inset: 0;
   }
-  .hero-bg-photo video {
+  .hero-carousel-img {
+    position: absolute; inset: 0;
     width: 100%; height: 100%;
     object-fit: cover; object-position: center;
     filter: brightness(0.82) saturate(0.88);
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
   }
+  .hero-carousel-img.active {
+    opacity: 1;
+  }
+
   .hero-frame-content {
     position: absolute; inset: 0; z-index: 2;
     display: flex; align-items: flex-end;
@@ -66,7 +73,7 @@
     background: linear-gradient(
       to top,
       rgba(0, 0, 0, 0.85) 0%,
-      rgba(0, 0, 0, 0.25) 80%,
+      rgba(0, 0, 0, 0.25) 25%,
       rgba(0, 0, 0, 0) 90%
     );
   }
@@ -141,13 +148,15 @@
   .pillar-dot.green { background: var(--green); }
   .pillar-dot.amber { background: var(--amber); }
   .pillar-title { font-size: 13px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text); margin-bottom: 3px; }
-  .pillar-text { font-size: 16px; font-weight: 300; color: var(--muted); line-height: 1.7; margin: 0; padding-right: 2.5rem; }
+  .pillar-text { font-size: 16px; font-weight: 300; color: var(--muted); line-height: 1.7; margin: 0; }
 
   /* ── TEAM ── */
   .team-section { background: var(--light); padding: 6rem 0; }
   .team-card { background: #fff; padding: 1.6rem 1.4rem; border: 0.5px solid var(--border); height: 100%; transition: background 0.2s; }
   .team-card:hover { background: #eef4fb; }
-  .team-initials { width: 42px; height: 42px; border-radius: 50%; background: rgba(25,107,188,0.1); color: var(--blue); font-size: 14px; font-weight: 500; display: flex; align-items: center; justify-content: center; margin-bottom: 0.9rem; }
+  .team-card--empty { opacity: 0.35; pointer-events: none; }
+  .team-initials--empty { background: var(--border); }
+  .team-initials { width: 96px; height: 96px; border-radius: 50%; background: rgba(25,107,188,0.1); color: var(--blue); font-size: 14px; font-weight: 500; display: flex; align-items: center; justify-content: center; margin-bottom: 0.9rem; }
   .team-name { font-size: 16px; font-weight: 500; color: var(--text); margin-bottom: 2px; }
   .team-role { font-size: 14px; font-weight: 300; color: var(--muted); line-height: 1.5; margin: 0; }
   .team-dept { font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); margin-top: 6px; }
@@ -163,13 +172,13 @@
   .map-wrap { display: flex; justify-content: center; align-items: center; }
 
   /* ── MEMBERSHIPS ── */
-  .memberships-section { padding: 4rem 0; border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); text-align: center; }
+  .memberships-section { padding: 4rem 0; background: var(--light); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); text-align: center; }
   .memb-label { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 300; letter-spacing: -0.01em; color: var(--text); margin-bottom: 2rem; }
   .memb-item { font-size: 16px; font-weight: 400; color: var(--muted); padding: 0.45rem 1.1rem; border: 0.5px solid var(--border); border-radius: 1px; display: inline-block; margin: 4px 4px; }
   .memb-logos { display: flex; justify-content: center; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
   .memb-logo-item { display: inline-flex; align-items: center; justify-content: center; padding: 1rem 2rem; border: 1px solid var(--border); border-radius: 4px; text-decoration: none; transition: all 0.2s; background: #fff; }
-  .memb-logo-item:hover { opacity: 0.75; border-color: var(--primary); box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
-  .memb-logo-item img { height: 52px; width: auto; display: block; }
+  .memb-logo-item:hover { opacity: 0.75; border-color: var(--blue); box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .memb-logo-item img { height: 120px; width: auto; display: block; }
 
   /* ── CLIENTS ── */
   .clients-section { padding: 6rem 0; }
@@ -177,7 +186,7 @@
   .clients-strip { display: flex; gap: 14px; align-items: center; animation: scroll 38s linear infinite; width: max-content; }
   .clients-strip:hover { animation-play-state: paused; }
   @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  .client-img { flex-shrink: 0; width: 105px; height: 58px; object-fit: contain; filter: grayscale(1); opacity: 0.5; transition: filter 0.3s, opacity 0.3s; background: #fff; padding: 8px; border: 0.5px solid var(--border); }
+  .client-img { flex-shrink: 0; width: 180px; height: 100px; object-fit: contain; filter: grayscale(1); opacity: 0.5; transition: filter 0.3s, opacity 0.3s; background: #fff; padding: 0 8px; border: 0.5px solid var(--border); }
   .client-img:hover { filter: grayscale(0); opacity: 1; }
 
   /* ── CTA ── */
@@ -195,7 +204,7 @@
 
   /* ── FOOTER ── */
   footer { background: var(--text); padding: 4.5rem 0 2rem; }
-  .footer-logo img { height: 34px; filter: brightness(10); opacity: 0.9; margin-bottom: 1.1rem; }
+  .footer-logo img { height: 34px; filter: brightness(0) invert(1); opacity: 0.9; margin-bottom: 1.1rem; }
   .footer-desc { font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.4); line-height: 1.85; margin-bottom: 1.2rem; }
   .footer-contact-item { font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.5); margin-bottom: 4px; }
   .footer-contact-item a { color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.2s; }
@@ -221,6 +230,14 @@
   .service-more { display: inline-block; margin-top: 1.2rem; font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); text-decoration: none; transition: color 0.2s; }
   .service-card:hover .service-more { color: #fff; }
   .service-more:hover { opacity: 0.8; }
+
+  /* ── FLAMENCOS BANNER ── */
+  .flamencos-banner { position: relative; min-height: 480px; display: flex; align-items: center; overflow: hidden; background: #d6e8f5; }
+  .flamencos-banner-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 65%; z-index: 0; }
+  .flamencos-banner-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.18); z-index: 1; }
+  .flamencos-banner-content { position: relative; z-index: 2; text-align: left; padding: 3rem 1rem 9rem; }
+  .flamencos-banner-content h2 { font-size: clamp(1.8rem,4vw,2.8rem); font-weight: 300; color: var(--text); line-height: 1.25; margin-bottom: 1.2rem; }
+  .flamencos-banner-content p { font-size: clamp(1rem,2vw,1.2rem); font-weight: 300; color: var(--gray); max-width: 560px; }
 
   /* ── INNER PAGES ── */
   .inner-hero { background: var(--blue); color:#fff; padding: 7.5rem 0 3.5rem; margin-top:0; }
