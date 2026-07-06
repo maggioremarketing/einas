@@ -172,3 +172,13 @@ function einas_servicio_save($post_id) {
     }
 }
 add_action('save_post_servicio', 'einas_servicio_save');
+
+// Ordenar el archivo de servicios por "orden" manual (menu_order), no por fecha
+function einas_servicio_archive_order($query) {
+    if (!is_admin() && $query->is_main_query() && is_post_type_archive('servicio')) {
+        $query->set('orderby', 'menu_order');
+        $query->set('order', 'ASC');
+        $query->set('posts_per_page', -1);
+    }
+}
+add_action('pre_get_posts', 'einas_servicio_archive_order');

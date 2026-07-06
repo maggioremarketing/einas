@@ -22,6 +22,7 @@ function einas_seed_all_content() {
     einas_seed_servicios();
     einas_seed_equipo();
     einas_seed_recursos();
+    einas_seed_pages();
 
     update_option('einas_content_seeded', current_time('mysql'));
 }
@@ -275,5 +276,41 @@ function einas_seed_recursos() {
 
         wp_set_object_terms($post_id, 'Guía', 'tipo_recurso');
         update_post_meta($post_id, '_nota_legal', $r['nota']);
+    }
+}
+
+// ─────────────────────────────────────────────────────────
+// PÁGINAS ESTÁTICAS (no son CPT: Contacto, Casos, Sectores, Punta Arenas)
+// Se crean con el slug exacto para que WordPress aplique solo el
+// template page-{slug}.php automáticamente (Template Hierarchy nativa).
+// ─────────────────────────────────────────────────────────
+function einas_seed_pages() {
+    $paginas = [
+        // slug => [titulo, template asignado explícitamente (opcional, solo si no matchea por slug)]
+        'contacto' => ['titulo' => 'Contacto', 'template' => 'page-contacto.php'],
+        'casos' => ['titulo' => 'Casos', 'template' => ''],
+        'sector-mineria-energia' => ['titulo' => 'Sector · Minería y Energía', 'template' => ''],
+        'sector-acuicultura' => ['titulo' => 'Sector · Acuicultura', 'template' => ''],
+        'consultora-ambiental-punta-arenas' => ['titulo' => 'Consultora Ambiental en Punta Arenas', 'template' => ''],
+    ];
+
+    foreach ($paginas as $slug => $data) {
+        $existing = get_page_by_path($slug);
+        if ($existing) {
+            $post_id = $existing->ID;
+        } else {
+            $post_id = wp_insert_post([
+                'post_type'   => 'page',
+                'post_title'  => $data['titulo'],
+                'post_name'   => $slug,
+                'post_status' => 'publish',
+                'post_content' => '', // el contenido lo pone el template PHP, no el editor
+            ]);
+        }
+        if (!$post_id || is_wp_error($post_id)) continue;
+
+        if (!empty($data['template'])) {
+            update_post_meta($post_id, '_wp_page_template', $data['template']);
+        }
     }
 }
